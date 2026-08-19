@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 (2026-08-19)
+
+- 补充仓库元数据（repository/homepage/bugs 字段），便于插件市场与文档索引。
+- README 新增「插件市场安装」说明；新增 `docs/DESIGN.md` 记录关键实现决策。
+
 ## 0.1.0 (2026-08-19)
 
 - 首个可用版本：通过客户端 CSS 覆盖 `--dsh-chat-content-width`（dsh 默认 748px → 1040px）。
