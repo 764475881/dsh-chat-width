@@ -1,0 +1,35 @@
+{
+  "name": "dsh-chat-width",
+  "version": "0.1.0",
+  "description": "调宽 dsh 网页会话区的聊天内容宽度（默认 748px → 1040px；控制台 __setChatWidth(px) 可随时调整）",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "cordis",
+    "chat-width",
+    "ui"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  },
+  "license": "MIT"
+}
