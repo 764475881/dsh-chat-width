@@ -4,6 +4,20 @@
 
 输入框、底部工具栏等宽度由同一变量派生（`calc(var(--dsh-chat-content-width) + 32px)`），会自动跟着变宽。
 
+## 调整宽度
+
+两种方式，任选其一：
+
+1. **拖拽把手**（推荐）：会话文字列**右缘**（垂直中点）有一个细长的竖向把手，鼠标按住左右拖动即可实时调整宽度，松开自动记忆。**双击把手恢复默认值 1040px**。把手的半透明样式与主题融合，悬停/拖动时高亮。
+2. **控制台**（F12）：
+
+   ```js
+   __setChatWidth(960)   // 任意值，范围 520~2400，立即生效
+   __setChatWidth(1040)  // 恢复默认
+   ```
+
+选择会记忆到 localStorage（键 `dsh_chat_width`），下次打开页面仍生效。
+
 ## 安装
 
 ```bash
@@ -15,23 +29,14 @@ pnpm add link:/home/miku/dsh-chat-width
 
 卸载同理：从 `package.json` 的 dependencies 与 bundles 移除，`pnpm install`，重启。
 
-## 调整宽度
-
-打开浏览器控制台（F12）：
-
-```js
-__setChatWidth(960)   // 任意值，范围 400~2400，立即生效
-__setChatWidth(1040)  // 恢复默认
-```
-
-选择会记忆到 localStorage（键 `dsh_chat_width`），下次打开页面仍生效。
-
 ## 原理
 
 - 服务端占位 `lib/index.js`：空 `apply`，仅让 loader 行可挂载。
 - 客户端 `lib/client.js`：注册为 DSH 客户端模块，注入 `<style>` 覆盖：
   - `.wSkVaW_root.wSkVaW_root`（当前 dsh 版本的会话根元素类名）
   - `[data-phase][data-phase]`（版本无关兜底选择器，特异性 (0,2,0) 压过 dsh 自带定义）
+- 拖拽把手 `.dsh-cw-handle` 绝对定位锚定在文字列右缘：`right: calc((100% - var(--dsh-chat-content-width)) / 2 - 7px)`，宽度变化由 CSS 变量实时驱动，无需 JS 计算位置；pointer 事件 + setPointerCapture 完成拖拽，松手写入 localStorage。
+- 会话根元素可能在 boot 后才挂载（hero 阶段），插件用 MutationObserver 跟随根元素出现/切换并挂载把手。
 
 ## 开发
 
