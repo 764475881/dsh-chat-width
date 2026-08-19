@@ -20,6 +20,16 @@
 
 ## 安装
 
+**方式一：插件市场（推荐）** —— 在 dsh 网页的设置 → 插件市场中搜索 `dsh-chat-width`，一键安装。
+
+**方式二：命令行**（dsh >= 0.1.0-rc.7）：
+
+```bash
+dsh plugin --profile web add github:764475881/dsh-chat-width
+```
+
+**方式三：本地开发（link）**：
+
 ```bash
 # 在 web profile 目录（~/.dsh/profiles/web）下
 pnpm add link:/home/miku/dsh-chat-width
@@ -38,6 +48,8 @@ pnpm add link:/home/miku/dsh-chat-width
 - 拖拽把手 `.dsh-cw-handle` 绝对定位锚定在文字列右缘：`right: calc((100% - var(--dsh-chat-content-width)) / 2 - 7px)`，宽度变化由 CSS 变量实时驱动，无需 JS 计算位置；pointer 事件 + setPointerCapture 完成拖拽，松手写入 localStorage。
 - **跟手映射**：文字列居中布局下右缘位移 = 宽度变化的一半，因此拖拽时宽度按指针位移的 **2×** 变化，把手（锚定右缘）才能 1:1 跟随鼠标，且列始终居中、松手无回弹。
 - 会话根元素可能在 boot 后才挂载（hero 阶段），插件用 MutationObserver 跟随根元素出现/切换并挂载把手。
+
+详细设计决策见 [docs/DESIGN.md](docs/DESIGN.md)。
 
 ## 开发
 
