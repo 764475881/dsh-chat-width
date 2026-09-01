@@ -17,9 +17,11 @@ dsh 的会话区布局由 `--dsh-chat-content-width` 控制（定义在会话根
 ## 选择器策略：类名哈希 + 属性兜底
 
 - `.wSkVaW_root.wSkVaW_root`：双类把特异性提到 (0,2,0)，压过 dsh 自带定义，与样式注入顺序无关。
-- `[data-phase][data-phase]`：版本无关兜底。dsh 未来若改了类名哈希，会话根元素（带 `data-phase` 属性）仍会被命中；双属性同样保证 (0,2,0)。
+- `[data-phase][data-phase]:not(textarea)`：版本无关兜底。dsh 未来若改了类名哈希，会话根元素（带 `data-phase` 属性）仍会被命中；双属性保证 (0,2,0)，`:not(textarea)` 追加 (0,0,1) 后为 (0,2,1)。
 
-两个选择器都只匹配会话根元素，不会误伤其它 UI。
+dsh 前端恰好只有两个元素携带 `data-phase`：会话根元素与 composer 输入框的 textarea。输入框的官方样式是 `position:absolute; inset:0; overflow:hidden`（铺满由隐藏 mirror 撑高的容器，自身永不滚动），若被兜底选择器命中，`position` 会被覆盖为 `relative`，高度塌缩回 `rows=2` 的固有高度——多行文字时光标只能停在最上面两行。故必须显式排除。
+
+两个选择器都只匹配会话根元素（`:not(textarea)` 排除了唯一会误伤的 composer 输入框）。
 
 ## 拖拽把手的定位：CSS 变量驱动，零 JS 定位
 

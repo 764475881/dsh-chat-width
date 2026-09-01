@@ -44,7 +44,7 @@ pnpm add link:/home/miku/dsh-chat-width
 - 服务端占位 `lib/index.js`：空 `apply`，仅让 loader 行可挂载。
 - 客户端 `lib/client.js`：注册为 DSH 客户端模块，注入 `<style>` 覆盖：
   - `.wSkVaW_root.wSkVaW_root`（当前 dsh 版本的会话根元素类名）
-  - `[data-phase][data-phase]`（版本无关兜底选择器，特异性 (0,2,0) 压过 dsh 自带定义）
+  - `[data-phase][data-phase]:not(textarea)`（版本无关兜底选择器，特异性 (0,2,0) 压过 dsh 自带定义；`:not(textarea)` 排除同样携带 `data-phase` 的 composer 输入框，避免破坏其绝对定位布局）
 - 拖拽把手 `.dsh-cw-handle` 绝对定位锚定在文字列右缘：`right: calc((100% - var(--dsh-chat-content-width)) / 2 - 7px)`，宽度变化由 CSS 变量实时驱动，无需 JS 计算位置；pointer 事件 + setPointerCapture 完成拖拽，松手写入 localStorage。
 - **跟手映射**：文字列居中布局下右缘位移 = 宽度变化的一半，因此拖拽时宽度按指针位移的 **2×** 变化，把手（锚定右缘）才能 1:1 跟随鼠标，且列始终居中、松手无回弹。
 - 会话根元素可能在 boot 后才挂载（hero 阶段），插件用 MutationObserver 跟随根元素出现/切换并挂载把手。

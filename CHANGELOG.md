@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 (2026-08-20)
+
+- **修复**：兜底选择器 `[data-phase][data-phase]` 会同时命中 composer 输入框的 textarea（官方输入框也携带 `data-phase` 属性），其 `position:absolute` 被覆盖为 `relative` 后高度塌缩回两行，且官方输入框自身 `overflow:hidden` 不可滚动——多行文字时光标只能出现在最上面两行。现改为 `[data-phase][data-phase]:not(textarea)`，精确排除输入框；会话根元素仍被正常命中，宽度调节功能不变。
+
 ## 0.1.1 (2026-08-19)
 
 - 补充仓库元数据（repository/homepage/bugs 字段），便于插件市场与文档索引。
