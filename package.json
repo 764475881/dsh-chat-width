@@ -1,7 +1,7 @@
 {
   "name": "dsh-chat-width",
-  "version": "0.1.1",
-  "description": "调宽 dsh 网页会话区的聊天内容宽度（默认 748px → 1040px；右缘把手拖拽可调，控制台 __setChatWidth(px) 亦可）",
+  "version": "0.2.0",
+  "description": "调宽 dsh 网页会话区的聊天内容与用户消息气泡宽度（默认 748px → 1040px；右缘把手拖拽可调，控制台 __setChatWidth(px) / __setUserBubbleRatio(r) 亦可）",
   "type": "module",
   "main": "lib/index.js",
   "scripts": {
