@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0 (2026-08-21)
+
+- **新功能：用户消息气泡跟随内容宽度**。官方 `.gdEzaW_userStack` 把你发送的消息（含 steering / 排队消息气泡）硬钉在 `min(525px, 82%)`，与 `--dsh-chat-content-width` 无关——调宽会话区后，用户消息在大屏上仍是一条窄带。现以 `.gdEzaW_userStack.gdEzaW_userStack`（特异性 (0,2,0)）覆盖为 `min(calc(var(--dsh-chat-content-width) × 比例), 82%)`。
+- 比例默认 **0.8**（范围 0.3~1），控制台 `__setUserBubbleRatio(r)` 可调，记忆到 localStorage 键 `dsh_user_bubble_ratio`；82% 硬上限保留，防止气泡贴满文字列。
+- 变量命名加 `--dshcw-` 前缀，避免与官方未来新增的 `--dsh-*` 变量冲突。
+
 ## 0.1.2 (2026-08-20)
 
 - **修复**：兜底选择器 `[data-phase][data-phase]` 会同时命中 composer 输入框的 textarea（官方输入框也携带 `data-phase` 属性），其 `position:absolute` 被覆盖为 `relative` 后高度塌缩回两行，且官方输入框自身 `overflow:hidden` 不可滚动——多行文字时光标只能出现在最上面两行。现改为 `[data-phase][data-phase]:not(textarea)`，精确排除输入框；会话根元素仍被正常命中，宽度调节功能不变。

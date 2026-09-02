@@ -4,6 +4,8 @@
 
 输入框、底部工具栏等宽度由同一变量派生（`calc(var(--dsh-chat-content-width) + 32px)`），会自动跟着变宽。
 
+**你发送的消息气泡也会跟着变宽**：官方把用户消息气泡硬钉在 `min(525px, 82%)`（与内容宽度无关），大屏上显得特别窄；本插件 0.2.0 起让气泡最大宽度 = 内容宽 × 比例（默认 **0.8**，硬上限 82% 防溢出），随内容宽度同步缩放。
+
 ## 调整宽度
 
 两种方式，任选其一：
@@ -14,9 +16,11 @@
    ```js
    __setChatWidth(960)   // 任意值，范围 520~2400，立即生效
    __setChatWidth(1040)  // 恢复默认
+
+   __setUserBubbleRatio(0.9)  // 用户消息气泡宽度 = 内容宽 × 0.9（范围 0.3~1，默认 0.8）
    ```
 
-选择会记忆到 localStorage（键 `dsh_chat_width`），下次打开页面仍生效。
+选择会记忆到 localStorage（键 `dsh_chat_width`），下次打开页面仍生效；气泡比例记忆在 `dsh_user_bubble_ratio`。
 
 ## 安装
 
@@ -48,6 +52,7 @@ pnpm add link:/home/miku/dsh-chat-width
 - 拖拽把手 `.dsh-cw-handle` 绝对定位锚定在文字列右缘：`right: calc((100% - var(--dsh-chat-content-width)) / 2 - 7px)`，宽度变化由 CSS 变量实时驱动，无需 JS 计算位置；pointer 事件 + setPointerCapture 完成拖拽，松手写入 localStorage。
 - **跟手映射**：文字列居中布局下右缘位移 = 宽度变化的一半，因此拖拽时宽度按指针位移的 **2×** 变化，把手（锚定右缘）才能 1:1 跟随鼠标，且列始终居中、松手无回弹。
 - 会话根元素可能在 boot 后才挂载（hero 阶段），插件用 MutationObserver 跟随根元素出现/切换并挂载把手。
+- **用户消息气泡**：官方 `.gdEzaW_userStack` 硬编码 `max-width: min(525px, 82%)`，不派生自内容宽度变量。插件以双类选择器 `.gdEzaW_userStack.gdEzaW_userStack`（特异性 (0,2,0)）覆盖为 `var(--dshcw-user-bubble-max-width)`，即 `min(calc(内容宽 × 比例), 82%)`；同一栈承载 steering / 排队消息气泡，一并跟随。dsh 升级若改了类名哈希，该规则失效但无害（回退官方 525px 上限）。
 
 详细设计决策见 [docs/DESIGN.md](docs/DESIGN.md)。
 
