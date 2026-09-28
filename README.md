@@ -1,6 +1,11 @@
 # dsh-chat-width
 
-调宽 dsh 网页会话区的聊天内容宽度。dsh 原生把会话文字列限制在 **748px**，在大屏上左右浪费大量空间；本插件通过客户端 CSS 把 `--dsh-chat-content-width` 覆盖为 **1040px**（默认值，可调）。
+> **dsh 0.1.7+ 已内置本功能**：新版自带会话宽度把手（文字列左右两侧的全高把手，拖拽即调宽，
+> 偏好存于 localStorage 键 `dsh.conversation.contentWidth`）。插件在检测到内置实现时会**自动
+> 让位**（不注入样式、不渲染自己的把手），因此在新版上它等同不存在——直接拖内置把手即可。
+> 本插件现在只对 **dsh < 0.1.7** 有意义。详见 [CHANGELOG](CHANGELOG.md)。
+
+调宽 dsh 网页会话区的聊天内容宽度。旧版 dsh 把会话文字列限制在 **748px**，在大屏上左右浪费大量空间；本插件通过客户端 CSS 把 `--dsh-chat-content-width` 覆盖为 **1040px**（默认值，可调）。
 
 输入框、底部工具栏等宽度由同一变量派生（`calc(var(--dsh-chat-content-width) + 32px)`），会自动跟着变宽。
 
@@ -15,6 +20,8 @@
    __setChatWidth(960)   // 任意值，范围 520~2400，立即生效
    __setChatWidth(1040)  // 恢复默认
    ```
+
+   dsh 0.1.7+ 上该助手会自动改为驱动内置钩子（写 `dsh.conversation.contentWidth` + `--dsh-chat-user-width`）。
 
 选择会记忆到 localStorage（键 `dsh_chat_width`），下次打开页面仍生效。
 
